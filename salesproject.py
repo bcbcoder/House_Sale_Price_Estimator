@@ -8,7 +8,7 @@ from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 
 
-model = keras.models.load_model('trained_model.h5')
+model = keras.models.load_model('keras_model.keras')
 
 
 salesTest = pd.read_csv('test.csv')
