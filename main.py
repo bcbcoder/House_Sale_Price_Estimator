@@ -15,7 +15,7 @@ print(tf.__version__)
 salesTrain = pd.read_csv('train.csv')
 salesTest = pd.read_csv('test.csv')
 
-# turn NA's into 0's and nones
+
 salesTrain['LotFrontage'].fillna(0, inplace=True)
 salesTrain['Alley'].fillna('none', inplace=True)
 salesTrain['FireplaceQu'].fillna('none', inplace=True)
@@ -45,7 +45,6 @@ def one_hot_encode_and_drop(df, column_name):
     return df
 
 
-# Apply the function to 'Street' and 'Alley' columns
 salesTrain = one_hot_encode_and_drop(salesTrain, 'MSZoning')
 salesTrain = one_hot_encode_and_drop(salesTrain, 'Street')
 salesTrain = one_hot_encode_and_drop(salesTrain, 'Alley')
@@ -92,29 +91,16 @@ salesTrain = one_hot_encode_and_drop(salesTrain, 'SaleCondition')
 
 
 
-# Once all data has been put into numbers, now lets get rid of any columns that are statistically insignificant to the outcome
-# note that once i get into deep learning models, feature extraction will be less necessary
-# because deep learning models can often do feature engineering themselves, and not incorporate much the features that are insignificant
-# Define the dependent variable and independent variables
 
 
-# Define the dependent variable and independent variables
 y = salesTrain['SalePrice']
 X = salesTrain.drop(['SalePrice', 'Id'], axis=1)  # Assuming 'SalePrice' is the dependent variable
 
-# for now i got rid of id's since they shouldnt scale, but i may have to figure out how to get them
-# back because they may be needed to identify each house, but I may not need it because each row should stay together
-# and also has that 0 1 2... that could be considered an Id
-
-# Standardize the independent variables
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 
-
-# Convert the standardized array back to a DataFrame
 X_scaled = pd.DataFrame(X_scaled, columns=X.columns)
 
-# Add a constant term (intercept) to the independent variables
 X_scaled = sm.add_constant(X_scaled)
 
 
@@ -137,11 +123,9 @@ y = y.to_numpy()
 # Initialize KFold cross-validator
 kf = KFold(n_splits=400, shuffle=True, random_state=42)
 
-# Lists to store cross-validation results
 all_train_losses = []
 all_test_losses = []
 
-# Perform cross-validation
 for train_index, test_index in kf.split(X_pca):
     X_train_cv, X_test_cv = X_pca[train_index], X_pca[test_index]
     y_train_cv, y_test_cv = y[train_index], y[test_index]
