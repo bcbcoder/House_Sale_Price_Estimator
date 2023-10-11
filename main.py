@@ -139,3 +139,4 @@ print(f"Mean Absolute Error (MAE): {mae}")
 
 for prediction in y_pred[:10]:
     print(prediction)
+model.save("keras_model.keras")
