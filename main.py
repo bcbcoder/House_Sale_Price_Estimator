@@ -104,16 +104,16 @@ X_scaled = pd.DataFrame(X_scaled, columns=X.columns)
 X_scaled = sm.add_constant(X_scaled)
 
 
-n_components = 285  # Choose the number of components you want to keep
+n_components = 285 
 pca = PCA(n_components=n_components)
 X_pca = pca.fit_transform(X_scaled)
 
 
 model = keras.Sequential([
-    layers.Input(shape=(n_components,)),  # Input layer with the number of PCA components
-    layers.Dense(64, activation='relu'),  # Add hidden layers as needed
+    layers.Input(shape=(n_components,)),  
+    layers.Dense(64, activation='relu'),  
     layers.Dense(32, activation='relu'),
-    layers.Dense(1)  # Output layer for regression
+    layers.Dense(1)  
 ])
 
 model.compile(optimizer='adam', loss='mean_squared_error')
